@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+	<Properties>
+		<!-- Default log file path (overridden at runtime) -->
+		<Property name="logPath">${logPath}</Property>
+		<Property name="log_Pattern">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Property>
+	</Properties>
+
+	<Appenders>
+		<!-- Console Appender -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout>
+				<Pattern>${log_Pattern}</Pattern>
+			</PatternLayout>
+		</Console>
+
+		<!-- Rolling File Appender (Dynamically Updated) -->
+		<RollingFile name="FileLogger"
+			fileName="${logPath}"
+			filePattern="logs/archive-%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<Pattern>${log_Pattern}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="FileLogger" />
+		</Root>
+	</Loggers>
+</Configuration>
