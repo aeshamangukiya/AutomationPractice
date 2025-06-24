@@ -1,6 +1,7 @@
 package pageObjects.pages.accounts;
 
 import java.lang.System.Logger;
+import java.sql.DriverAction;
 import java.time.Duration;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -27,25 +28,25 @@ public class LoginPage extends BasePage {
 	}
 
 	// Locators
-	@FindBy(xpath = "//form[@class='ng-untouched ng-pristine ng-invalid']//input[@placeholder='Enter username or email']")
-	WebElement txtEmailUsername;
+	@FindBy(xpath = "//input[@name='username']")
+	WebElement txtUsername;
 
-	@FindBy(xpath = "(//input[@placeholder='Password'])[3]")
+	@FindBy(xpath = "//input[@name='password']")
 	WebElement txtPassWord;
 
-	@FindBy(xpath = "(//button[@type='submit'])[7]")
+	@FindBy(xpath = "//button[normalize-space()='Login']")
 	WebElement btnSignIn;
 
-	@FindBy(xpath = "//a[@class='d-flex align-items-center ng-tns-c95-1']//i[@class='far fa-chevron-up up-arrow ng-tns-c95-1']")
-	WebElement ddlMyAccount;
+	@FindBy(xpath = "//button[normalize-space()='Login']")
+	WebElement ddlLogin;
 
-	@FindBy(xpath = "//span[normalize-space()='Logout']")
-	WebElement btnLogout;
+//	@FindBy(xpath = "//span[normalize-space()='Logout']")
+//	WebElement btnLogout;
 
 	// Actions
-	public void setEmailUsername(String Email) {
-		wait.until(ExpectedConditions.visibilityOf(txtEmailUsername)).clear();
-		txtEmailUsername.sendKeys(Email);
+	public void setUsername(String User) {
+		wait.until(ExpectedConditions.visibilityOf(txtUsername)).clear();
+		txtUsername.sendKeys(User);
 	}
 
 	public void setPassword(String Password) {
@@ -58,7 +59,11 @@ public class LoginPage extends BasePage {
 		executor.executeScript("arguments[0].click();", btnSignIn);
 		// btnSign.click();
 	}
-
+	
+	public String getCurrentURL() {
+		return driver.getCurrentUrl();
+	}
+	
 	public boolean isSignInBtnVisible() {
 		try {
 			return btnSignIn.isDisplayed();
@@ -68,8 +73,8 @@ public class LoginPage extends BasePage {
 	}
 	//demo
 	public void clearUsernameEmailTxt() {
-		txtEmailUsername.sendKeys(Keys.CONTROL + "a"); // Select all text
-		txtEmailUsername.sendKeys(Keys.DELETE); // Delete selected text
+		txtUsername.sendKeys(Keys.CONTROL + "a"); // Select all text
+		txtUsername.sendKeys(Keys.DELETE); // Delete selected text
 	}
 
 	public void clearPasswordTxt() {
@@ -79,20 +84,20 @@ public class LoginPage extends BasePage {
 
 	public void clickMyAccountDdl() {
 		try {
-			ddlMyAccount.click();
+			ddlLogin.click();
 		} catch (Exception e) {
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", ddlMyAccount);
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", ddlLogin);
 
 		}
 	}
 
-	public void clickLogoutOpt() {
-		try {
-			btnLogout.click();
-		} catch (Exception e) {
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnLogout);
-		}
-
-	}
+//	public void clickLogoutOpt() {
+//		try {
+//			btnLogout.click();
+//		} catch (Exception e) {
+//			((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnLogout);
+//		}
+//
+//	}
 
 }

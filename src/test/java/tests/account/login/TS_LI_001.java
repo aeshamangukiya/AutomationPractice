@@ -12,8 +12,6 @@ import constants.ConstVariables;
 import helper.PageURLs;
 import constants.ConstEnum.TestGroups;
 import pageObjects.pages.accounts.LoginPage;
-import pageObjects.pages.common.SlotCasinoPage;
-import pageObjects.pages.common.DashboardPage;
 import testBase.BaseTest;
 import utilitiesTest.ExcelReader;
 import utilitiesTest.LoggerUtility;
@@ -24,79 +22,71 @@ import utilitiesTest.LoggerUtility;
 public class TS_LI_001 extends BaseTest {
 
 	// Verify that the user can login with valid Username and password.
-	@Test(dataProvider = "LoginDataStatic", dataProviderClass = dataProviders.DataProviderUtils.class, priority = 1)
-	@Parameters({ "os", "browser" })
-	public void tc_LI_001(String username, String password, String exp) throws InterruptedException {
-		try {
-			// Perform login
-			DashboardPage dashboard = new DashboardPage(driver);
-			dashboard.setEmailUsername(username);
-			dashboard.setPassword(password);
-			dashboard.clickSignInBtn();
+	@Test(dataProvider = "LoginDataStatic", dataProviderClass = dataProviders.DataProviderUtils.class, priority = 1, groups = {
+			TestGroups.SANITY, TestGroups.MASTER, TestGroups.DATA_DRIVEN })
+	public void tc_LI_001(String username, String password, String exp) {
 
-			// Add wait if needed for the result to appear
-			Thread.sleep(200);
+		// Perform login
+		LoginPage login = new LoginPage(driver);
+		login.setUsername(username);
+		login.setPassword(password);
+		login.clickSignInBtn();
 
-			boolean isNotificationVisible = dashboard.isNotificationIconVisible();
+		// Validation
+		String pageCurrentURLActual = login.getCurrentURL();
+		String pageCurrentURLExp = ConstVariables.pageCurrentURLExp;
 
-			if (exp.equalsIgnoreCase("Success")) {
-				Thread.sleep(200);
-				Assert.assertTrue(isNotificationVisible, "Expected login to fail, but it passed.");
-			} else if (exp.equalsIgnoreCase("Fail")) {
-				if (isNotificationVisible) {
-					dashboard.clearUsernameEmailTxt();
-					dashboard.clearPasswordTxt();
-				}
-				Assert.assertFalse(isNotificationVisible, "Login should have passed, and it did.");
-			} else {
-				Assert.fail("Invalid expected result value: " + exp);
-			}
+		logger.info("pageCurrentURLActual: " + pageCurrentURLActual);
+		logger.info("pageCurrentURLExp: " + pageCurrentURLExp);
 
-		} catch (Exception e) {
-			LoggerUtility.error("Test failed due to exception: " + e.getMessage());
-			Assert.fail("Test case failed due to exception: " + e.getMessage());
+		if (exp.equalsIgnoreCase("Success")) {
+			// When login is expected to succeed, exact match
+			Assert.assertEquals(pageCurrentURLActual, pageCurrentURLExp,
+					"URL mismatch: expected [" + pageCurrentURLExp + "] but was [" + pageCurrentURLActual + "]");
+		} else if (exp.equalsIgnoreCase("Fail")) {
+			// When login is expected to fail, ensure URL is *not* exactly what a success
+			// would give
+			Assert.assertNotEquals(pageCurrentURLActual, pageCurrentURLExp,
+					"Login failed, but URL matches the success URL! Actual: [" + pageCurrentURLActual + "]");
+		} else {
+			Assert.fail("Invalid expected result value: \"" + exp + "\"");
 		}
-		
-		Thread.sleep(1000);
 	}
 
-	// Verify that user can or cannot login with different test cases.
-	@Test(dataProvider = "LoginDataExcel", dataProviderClass = dataProviders.DataProviderUtils.class, groups = {
-			TestGroups.SANITY }, priority = 2)
-	@Parameters({ "os", "browser", }) //
+	// Verify that the user can login with DataDriven.
+	@Test(dataProvider = "LoginDataStatic", dataProviderClass = dataProviders.DataProviderUtils.class, priority = 1, groups = {
+			TestGroups.SANITY, TestGroups.MASTER, TestGroups.DATA_DRIVEN })
+	public void tc_LI_002(String username, String password, String exp) {
 
-	public void tc_LI_002(String username, String password, String exp) throws InterruptedException {
-		try {
-			// Perform login
-			DashboardPage dashboard = new DashboardPage(driver);
-			dashboard.setEmailUsername(username);
-			dashboard.setPassword(password);
-			dashboard.clickSignInBtn();
+		// Perform login
+		LoginPage login = new LoginPage(driver);
+		login.setUsername("gjhgj");
+		login.setPassword("5566");
+		login.clickSignInBtn();
 
-			Thread.sleep(300);
-			// Validation of login state
-			boolean isNotificationVisible = dashboard.isNotificationIconVisible();
+		// Validation
+		String pageCurrentURLActual = login.getCurrentURL();
+		String pageCurrentURLExp = ConstVariables.pageCurrentURLExp;
 
-			if (exp.equalsIgnoreCase("Fail")) {
-				if (!isNotificationVisible) {
-					dashboard.clearUsernameEmailTxt();
-					dashboard.clearPasswordTxt();
-				}
-				Assert.assertFalse(isNotificationVisible, "Login should have passed, and it did.");
+		logger.info("pageCurrentURLActual: " + pageCurrentURLActual);
+		logger.info("pageCurrentURLExp: " + pageCurrentURLExp);
 
-			} else {
-				if (isNotificationVisible) {
-					// Logged in successfully, perform logout
-					dashboard.clickMyAccountDdl();
-					dashboard.clickLogoutOpt();
-				}
-				Assert.assertTrue(isNotificationVisible, "Login should have failed, but it Passed.");
+		if (exp.equalsIgnoreCase("Success")) {
+			// When login is expected to succeed, exact match
+			Assert.assertEquals(pageCurrentURLActual, pageCurrentURLExp,
+					"URL mismatch: expected [" + pageCurrentURLExp + "] but was [" + pageCurrentURLActual + "]");
+		} else if (exp.equalsIgnoreCase("Fail")) {
+			if (!pageCurrentURLActual.equalsIgnoreCase(pageCurrentURLExp)) {
+				login.clearUsernameEmailTxt();
+				login.clearPasswordTxt();
 			}
-		} catch (Exception e) {
-			LoggerUtility.error("Test failed due to exception: " + e.getMessage());
-			Assert.fail("Test case failed due to exception: " + e.getMessage());
+			// When login is expected to fail, ensure URL is *not* exactly what a success
+			// would give
+			Assert.assertNotEquals(pageCurrentURLActual, pageCurrentURLExp,
+					"Login failed, but URL matches the success URL! Actual: [" + pageCurrentURLActual + "]");
+		} else {
+			Assert.fail("Invalid expected result value: \"" + exp + "\"");
 		}
-		Thread.sleep(2000);
 	}
 
 }

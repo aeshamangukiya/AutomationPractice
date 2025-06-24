@@ -29,6 +29,8 @@ public class ConstVariables {
 	
 	public static final String ExcelSheetPath = (BASE_FOLDER + "\\testdata\\accounts\\login\\LoginTestData.xlsx");
 	
+	public static final String pageCurrentURLExp = "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index";
+	
 	public static void failTestCase(String message) {
 		Assert.fail("Test failed due to an exception: " + message);
 	}
