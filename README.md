@@ -1,131 +1,89 @@
-Java + Selenium Automation Testing Framework
+## Java + Selenium Automation Framework
 
-A modular and maintainable Java + Selenium framework including:
-- ExtentReports – detailed HTML reporting
-- TestNG + Selenium Grid – parallel test execution
-- Log4j2 – robust test logging
-- Screenshot Capture – captures screenshots on test failure
+Welcome to the **AutomationPractice Framework** — your powerful, plug-and-play solution for scalable test automation. Built with using **Java + Selenium + TestNG**, this framework is crafted for serious QA engineers who believe in clean code, modular design, and meaningful reports.
 
-Prerequisites:
-- Java 8 or higher
-- Maven
-- Selenium WebDriver
-- TestNG
-- ExtentReports
-- Log4j2
+-----------------------------------------------------------------------------------
+## Prerequisites:
+-> This framework isn't just a basic setup — it's designed for real-world automation testing, interview-ready project showcases, and enterprise-level scalability. Below is a breakdown of the key features (or prerequisites) and why they matter:
 
-Setup:
+- **Page Object Model** — A design pattern that separates page-specific logic (like locators and interactions) from test scripts.
+- **ExtentReports** — A powerful reporting library that generates rich HTML reports with test steps, statuses, screenshots, and system info.
+- **TestNG + Selenium Grid** — TestNG is a popular testing framework for Java; Selenium Grid allows you to run tests on different browsers/machines in parallel.
+- **Log4j2 Logging** — A flexible logging library for Java that captures detailed execution logs.
+- **Auto Screenshot on Failure** — Automatically captures a screenshot whenever a test fails.
+- **Retry Mechanism** —  Automatically re-executes failed tests using TestNG’s IRetryAnalyzer.
+
+-----------------------------------------------------------------------------------
+## Setup:
 1. Clone the repo:
    git clone https://github.com/aeshamangukiya/AutomationPractice.git
    ‑ or ‑
    git clone git@github.com:aeshamangukiya/AutomationPractice.git
 2. Run tests:
    mvn clean test
+   
+-----------------------------------------------------------------------------------
+## Project Structure:
+AutomationPractice/
+├── src/
+│   ├── main/java/
+│   │   ├── pageBase/           → Core WebDriver & setup
+│   │   ├── pageObjects/pages/  → Organized page classes
+│   │   ├── utilities/          → Reusable helpers (WaitUtil, ConfigReader, etc.)
+│   │   └── constants/          → Timeouts, Messages, Variables
+│   └── resources/              → log4j2 configuration
+│
+├── test/
+│   ├── java/
+│   │   ├── testBase/           → BaseTest setup/teardown
+│   │   ├── tests/              → Your actual test cases
+│   │   ├── listeners/          → Screenshot, Retry, ExtentReport listeners
+│   │   ├── dataProviders/      → Test data sources
+│   │   └── utilitiesTest/      → ExcelReader, ScreenshotUtil, etc.
+│   └── resources/config/       → config.properties & environment files
+│
+├── testData/                   → Excel files for test input
+├── testXML/xmlFiles/           → testng.xml (defines test suites)
+├── reports/                    → HTML reports output
+├── screenshots/                → Captured screenshots on failure
+├── logs/                       → Execution logs (organized by module)
+├── pom.xml                     → Maven magic happens here
+└── README.md                   → You’re reading it!
 
-Project Structure:
-src/
-  main/
-    java/
-      pageBase/
-        BasePage.java
-      pageObjects/
-        pages/
-          accounts/
-            LoginPage.java
-            ProfilePage.java
-          common/
-            Dashboard.java
-      utilities/
-        ConfigReader.java
-        WaitUtil.java
-        WebDriverUtil.java
-      constants/
-        ConstVariables.java
-        Timeouts.java
-        Messages.java
-    resources/
-      log4j2.xml
+-----------------------------------------------------------------------------------
+## Tech Stack
+- Language: Java 8+
+- Build Tool: Maven
+- Test Framework: TestNG
+- UI Automation: Selenium WebDriver
+- Reports: ExtentReports
+- Logging: Log4j2
+- Data Handling: Apache POI (for Excel)
+- Retry & Listeners: Custom TestNG listeners
 
-test/
-  java/
-    testBase/
-      BaseTest.java
-    tests/
-      account/
-        login/
-          LoginTest.java
-        register/
-          RegisterTest.java
-    listeners/
-      TestListener.java
-      RetryAnalyzer.java
-      ScreenshotListener.java
-      ExtentReportListener.java
-    dataProviders/
-      LoginDataProvider.java
-      ProfileDataProvider.java
-    utilitiesTest/
-      ScreenshotUtil.java
-      LogUtil.java
-      ExcelReader.java
-      ReportUtil.java
-  resources/
-    config/
-      config.properties
-      testEnvironments/
-        qa.properties
-        prod.properties
-      log4j2.xml
+-----------------------------------------------------------------------------------
+ ## XML Configuration
+- Page Objects – Java classes modeling UI pages/elements
+- Test Cases – Organized logically (login, register, etc.)
+- Utilities – Setup, teardown, browser config
+- testng.xml – Defines test groups, parallel execution, and suites
 
-testXML/
-  xmlFiles/
-    testng.xml
+-----------------------------------------------------------------------------------
+## Naming Conventions:
+- Packages/Folders → pageObjects, utilitiesTest (camelCase)
+- Classes → LoginPage.java, ConfigReader.java (PascalCase)
+- Methods/Vars → getUserEmail(), isUserActive (camelCase)
 
-testData/
-  accounts/
-    login/
-      LoginTestData.xlsx
-      ResetPasswordData.xlsx
+-----------------------------------------------------------------------------------
+ ## Next Steps
+- Add GitHub badges (build, test coverage, etc.)
+- Include real-world usage examples
+- Document environment setup & switching
+- Add CI/CD integration guide
+- Attach sample ExtentReports and screenshots
 
-logs/
-  account/
-    login/
-      login.log
-      register.log
-
-reports/
-  account/
-    login/
-      ExtentReport.html
-
-screenshots/
-  account/
-    login/
-      LoginPage_YYYY_MM_DD_HH_MM_SS.png
-
-test-output/      # TestNG output (ignored)
-target/           # Build output (ignored)
-pom.xml           # Maven configuration
-README.txt        # Project documentation
-
-XML Files:
-- Page Objects – classes modeling web pages/elements
-- Test Cases – organized test files
-- Utilities – setup/teardown logic
-- testng.xml – defines suite groups, parallelization
-
-Naming Conventions:
-- Packages/Folders: CamelCase (e.g., utilitiesTest)
-- Classes: PascalCase (e.g., ConfigReader.java)
-- Methods/Variables: camelCase (e.g., getUserDetails(), isActive)
-
-Next Steps:
-- Add badges (build, coverage, etc.)
-- Include usage examples or environment variable details
-- Document CI/CD integration
-- Provide sample test reports or screenshots
-
-Contact & Credits:
-- Maintained by [Your Name/Team]
-- For queries, reach out at: your.email@example.com
-- License: [Add license information here]
+-----------------------------------------------------------------------------------
+## Maintained By
+- Name: Aesha Mangukiya
+- Email ID: aeshamangukiya1@email.com
+- LinkedIn: www.linkedin.com/in/aesha-mangukiya-715535360
