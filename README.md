@@ -4,11 +4,11 @@ Welcome to the **AutomationPractice Framework** — your powerful, plug-and-play
 
 -----------------------------------------------------------------------------------
 ## Prerequisites:
--> This framework isn't just a basic setup — it's designed for real-world automation testing, interview-ready project showcases, and enterprise-level scalability. Below is a breakdown of the key features (or prerequisites) and why they matter:
+This framework isn't just a basic setup — it's designed for real-world automation testing, interview-ready project showcases, and enterprise-level scalability. Below is a breakdown of the key features (or prerequisites) and why they matter:
 
 - **Page Object Model** — A design pattern that separates page-specific logic (like locators and interactions) from test scripts.
-- **ExtentReports** — A powerful reporting library that generates rich HTML reports with test steps, statuses, screenshots, and system info.
 - **TestNG + Selenium Grid** — TestNG is a popular testing framework for Java; Selenium Grid allows you to run tests on different browsers/machines in parallel.
+- **ExtentReports** — A powerful reporting library that generates rich HTML reports with test steps, statuses, screenshots, and system info.
 - **Log4j2 Logging** — A flexible logging library for Java that captures detailed execution logs.
 - **Auto Screenshot on Failure** — Automatically captures a screenshot whenever a test fails.
 - **Retry Mechanism** —  Automatically re-executes failed tests using TestNG’s IRetryAnalyzer.
