@@ -1,4 +1,4 @@
-## Java + Selenium Automation Framework
+## Java + Selenium Hybrid Automation Framework
 
 Welcome to the **AutomationPractice Framework** — your powerful, plug-and-play solution for scalable test automation. Built with using **Java + Selenium + TestNG**, this framework is crafted for serious QA engineers who believe in clean code, modular design, and meaningful reports.
 
@@ -52,13 +52,17 @@ AutomationPractice/
 
 -----------------------------------------------------------------------------------
 ## Tech Stack
-- Language: Java 8+
+- Language: Java
+- Automation Tool: Selenium WebDriver
+- Test Runner: TestNG
 - Build Tool: Maven
-- Test Framework: TestNG
-- UI Automation: Selenium WebDriver
-- Reports: ExtentReports
+- Reporting: ExtentReports
 - Logging: Log4j2
-- Data Handling: Apache POI (for Excel)
+- Design Pattern: Page Object Model (POM)
+- Utilities/Data Handling: Excel (Apache POI), Properties Files
+- Version Control: Git (Bitbucket/GitHub)
+- CI Integration: Jenkins / GitHub Actions
+- Browser Support: Chrome, Firefox, Edge (local & remote)
 - Retry & Listeners: Custom TestNG listeners
 
 -----------------------------------------------------------------------------------
