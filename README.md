@@ -17,6 +17,7 @@ This framework isn't just a basic setup — it's designed for real-world automat
 ## Setup:
 1. Clone the repo:
    HTTPS: git clone https://github.com/aeshamangukiya/AutomationPractice.git
+
    SSL: git clone git@github.com:aeshamangukiya/AutomationPractice.git
 2. Run tests:
    mvn clean test
