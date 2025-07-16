@@ -1,4 +1,4 @@
-## Java + Selenium Hybrid Automation Framework
+## Hybrid Automation Framework (Java + Selenium)
 
 Welcome to the **AutomationPractice Framework** — your powerful, plug-and-play solution for scalable test automation. Built with using **Java + Selenium + TestNG**, this framework is crafted for serious QA engineers who believe in clean code, modular design, and meaningful reports.
 
