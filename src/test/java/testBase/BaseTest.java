@@ -35,6 +35,7 @@ import constants.ConstEnum.OperatingSystem;
 import constants.ConstEnum.TestGroups;
 import constants.ConstVariables;
 import helper.PageURLs;
+import io.restassured.RestAssured;
 import utilitiesPage.ConfigReader;
 import utilitiesTest.LoggerUtility;
 
@@ -65,7 +66,9 @@ public class BaseTest extends LoggerUtility {
 	@Parameters({ "os", "browser" })
 	public void setup(@Optional("WINDOWS") OperatingSystem os, @Optional("CHROME") Browser br) throws IOException {
 		info("Starting @BeforeClass – Method: *setup*");
-
+		
+		setupAPI();
+		
 		// Determine execution environment and initialize WebDriver accordingly
 		boolean isRemote = "remote-server".equalsIgnoreCase(properties.getProperty("runtime.environment"));
 		driver = isRemote ? createRemoteDriver(os, br) : createLocalDriver(br);
@@ -164,6 +167,12 @@ public class BaseTest extends LoggerUtility {
 	private void prepareBrowserEnvironment() {
 	    driver.manage().window().maximize();
 	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	}
+	
+	public void setupAPI() {
+		 // Set base URI for all API tests
+        RestAssured.baseURI = "https://reqres.in";
+        System.out.println("Base URI set for API: " + RestAssured.baseURI);
 	}
 	
 	private void navigateToPage() {

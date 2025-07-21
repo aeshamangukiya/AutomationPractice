@@ -32,7 +32,7 @@ public class TS_LI_001 extends BaseTest {
 		login.setPassword(password);
 		login.clickSignInBtn();
 
-		// Validation
+		// Validation	
 		String pageCurrentURLActual = login.getCurrentURL();
 		String pageCurrentURLExp = ConstVariables.pageCurrentURLExp;
 
