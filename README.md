@@ -55,93 +55,96 @@ It follows best practices and design patterns like **Page Object Model (POM)** a
 
 ## Project Structure
 <details> <summary>Click to expand</summary>
-src/
-├── main/
-│   ├── java/
-│   │   ├── pageBase/
+
+```text
+📁 src/
+├── 📁 main/
+│   ├── 📁 java/
+│   │   ├── 📁 pageBase/
 │   │   │   └── BasePage.java
-│   │   ├── pageObjects/
-│   │   │   ├── pages/
-│   │   │   │   ├── accounts/
+│   │   ├── 📁 pageObjects/
+│   │   │   ├── 📁 pages/
+│   │   │   │   ├── 📁 accounts/
 │   │   │   │   │   ├── LoginPage.java
 │   │   │   │   │   └── ProfilePage.java
-│   │   │   │   └── common/
+│   │   │   │   └── 📁 common/
 │   │   │   │       └── Dashboard.java
-│   │   ├── utilities/
+│   │   ├── 📁 utilities/
 │   │   │   ├── ConfigReader.java
 │   │   │   ├── WaitUtil.java
 │   │   │   └── WebDriverUtil.java
-│   │   ├── constants/
+│   │   ├── 📁 constants/
 │   │   │   ├── ConstVariables.java
 │   │   │   ├── Timeouts.java
 │   │   │   └── Messages.java
-│   └── resources/
+│   └── 📁 resources/
 │       └── log4j2.xml
 
-test/
-├── java/
-│   ├── testBase/
+📁 test/
+├── 📁 java/
+│   ├── 📁 testBase/
 │   │   └── BaseTest.java
-│   ├── tests/
-│   │   ├── account/
-│   │   │   ├── login/
+│   ├── 📁 tests/
+│   │   ├── 📁 account/
+│   │   │   ├── 📁 login/
 │   │   │   │   └── LoginTest.java
-│   │   │   └── register/
+│   │   │   └── 📁 register/
 │   │   │       └── RegisterTest.java
-│   │   └── api/
-│   │       └── users/
+│   │   └── 📁 apiTests/
+│   │       └── 📁 API_Tests.java/
 │   │           └── GetUsersAPITest.java
-│   ├── listeners/
+│   ├── 📁 listeners/
 │   │   ├── TestListener.java
 │   │   ├── RetryAnalyzer.java
 │   │   ├── ScreenshotListener.java
 │   │   └── ExtentReportListener.java
-│   ├── dataProviders/
+│   ├── 📁 dataProviders/
 │   │   ├── LoginDataProvider.java
 │   │   └── ProfileDataProvider.java
-│   └── utilitiesTest/
+│   └── 📁 utilitiesTest/
 │       ├── ScreenshotUtil.java
 │       ├── LogUtil.java
 │       ├── ExcelReader.java
 │       └── ReportUtil.java
-├── resources/
-│   └── config/
+├── 📁 resources/
+│   └── 📁 config/
 │       ├── config.properties
-│       ├── testEnvironments/
-│       │   ├── qa.properties
-│       │   └── prod.properties
-│       └── log4j2.xml
+│       └── 📁 testEnvironments/
+│           ├── qa.properties
+│           └── prod.properties
+│   └── log4j2.xml
 
-testXML/
-└── xmlFiles/
+📁 testXML/
+└── 📁 xmlFiles/
     └── testng.xml
 
-testData/
-└── accounts/
-    └── login/
+📁 testData/
+└── 📁 accounts/
+    └── 📁 login/
         ├── LoginTestData.xlsx
         └── ResetPasswordData.xlsx
 
-logs/
-└── account/
-    └── login/
+📁 logs/
+└── 📁 account/
+    └── 📁 login/
         ├── login.log
         └── register.log
 
-reports/
-└── account/
-    └── login/
+📁 reports/
+└── 📁 account/
+    └── 📁 login/
         └── ExtentReport.html
 
-screenshots/
-└── account/
-    └── login/
+📁 screenshots/
+└── 📁 account/
+    └── 📁 login/
         └── LoginPage_YYYY_MM_DD_HH_MM_SS.png
 
-test-output/      # TestNG output (ignored)
-target/           # Build output (ignored)
-pom.xml           # Maven configuration
-README.md         # Project documentation
+📁 test-output/         # TestNG output (ignored by VCS)
+📁 target/              # Maven build output (ignored by VCS)
+📄 pom.xml              # Maven configuration file
+📄 README.md            # Project documentation
+```
 </details>
 
 ## API Testing with Rest Assured
