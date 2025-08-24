@@ -199,3 +199,13 @@ Use with Selenium Grid for remote browsers.
 - Maintained by: Aesha Mangukiya
 - Email: aeshamangukiya1@gmail.com
 - GitHub: [GitHub: aeshamangukiya](https://github.com/aeshamangukiya)
+  
+---
+  
+## Contributions
+Pull requests, suggestions, and issue reports are welcome!  
+
+- Feel free to suggest improvements or new features.
+- Report bugs or broken links for faster fixes.
+- Submit pull requests with enhancements, documentation updates, or styling improvements.
+- Your contributions help make this resume website more accessible and professional.
