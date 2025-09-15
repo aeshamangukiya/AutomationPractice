@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.Map;
 
-public class API_Tests extends BaseTest {
+public class API_Test extends BaseTest {
 
 	@Test
 	public void testGetUserDetails() {
