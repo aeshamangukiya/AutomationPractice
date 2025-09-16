@@ -1,33 +1,40 @@
 package apiTests;
 
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import testBase.BaseTest;
-import utilitiesTest.ApiUtils;
-
-import org.testng.annotations.Test;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;  
 
 import java.util.Map;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-public class API_Test extends BaseTest {
+import io.restassured.response.Response;
+import test.base.BaseTest;
+import test.utilities.ApiUtils;
 
-	@Test
-	public void testGetUserDetails() {
+public class API_Test  {
 
-		// Reusable GET request
-		Response response = ApiUtils.getRequest("/api/users/2");
+	@BeforeClass
+	public void setupAPIURL() {
+		
+		BaseTest basetest = new BaseTest();
+		basetest.setupAPI();
+	}
+	
+    @Test
+    public void testGetUserDetails() {
 
-		// Reusable JSON object extraction
-		Map<String, Object> data = ApiUtils.extractJsonObject(response, "data");
+        // Reusable GET request
+        Response response = ApiUtils.getRequest("/api/users/2");
 
-		// Print the "data" section
-		ApiUtils.printJsonSection(data, "Data object");
+        // Reusable JSON object extraction
+        Map<String, Object> data = ApiUtils.extractJsonObject(response, "data");
 
-		// Assertion
+        
+        // Print the "data" section
+        ApiUtils.printJsonSection(data, "Data object");
+
+        // Assertion using Rest Assured
         response.then()
                 .statusCode(200)
                 .body("data.id", equalTo(2));
-	}
+    }
 }

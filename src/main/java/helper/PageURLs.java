@@ -1,6 +1,6 @@
 package helper;
 
-import constants.ConstVariables;
+import constants.FrameworkConstants;
 
 public class PageURLs {
 

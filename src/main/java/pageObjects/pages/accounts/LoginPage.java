@@ -13,7 +13,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import pageBase.BasePage;
+import configuration.ConfigReader;
+import helper.ElementActions;
+import page.base.BasePage;
 
 //Constructor
 public class LoginPage extends BasePage {
@@ -22,82 +24,64 @@ public class LoginPage extends BasePage {
 	WebDriverWait wait;
 
 	public LoginPage(WebDriver driver) {
-		super(driver);
-		this.executor = (JavascriptExecutor) driver;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		super(driver, ConfigReader.ConfigFile.LOGIN);
 	}
 
 	// Locators
-	@FindBy(xpath = "//input[@name='username']")
-	WebElement txtUsername;
-
-	@FindBy(xpath = "//input[@name='password']")
-	WebElement txtPassWord;
-
-	@FindBy(xpath = "//button[normalize-space()='Login']")
-	WebElement btnSignIn;
-
-	@FindBy(xpath = "//button[normalize-space()='Login']")
-	WebElement ddlLogin;
-
-//	@FindBy(xpath = "//span[normalize-space()='Logout']")
-//	WebElement btnLogout;
-
-	// Actions
-	public void setUsername(String User) {
-		wait.until(ExpectedConditions.visibilityOf(txtUsername)).clear();
-		txtUsername.sendKeys(User);
+	private WebElement txtUsername() {
+		return elVisible("txtUsername", 10);
 	}
 
-	public void setPassword(String Password) {
-		wait.until(ExpectedConditions.visibilityOf(txtPassWord)).clear();
-		txtPassWord.sendKeys(Password);
+	private WebElement txtPassWord() {
+		return elVisible("txtPassWord", 10);
+	}
+
+	private WebElement txtUserName() {
+		return elVisible("txtUserName", 10);
+	}
+
+	private WebElement btnSignIn() {
+		return elVisible("btnSignIn", 10);
+	}
+
+	private WebElement ddlLogin() {
+		return elVisible("ddlLogin", 10);
+	}
+
+	/*
+	 * --------------------------- Actions ---------------------------
+	 */
+	public void setUsername(String Username) {
+		ElementActions.clearAndTypeText(driver, txtUsername(), Username);
+	}
+
+	public void setPassword(String password) {
+		ElementActions.clearAndTypeText(driver, txtPassWord(), password);
 	}
 
 	public void clickSignInBtn() {
-		wait.until(ExpectedConditions.elementToBeClickable(btnSignIn));
-		executor.executeScript("arguments[0].click();", btnSignIn);
-		// btnSign.click();
+		ElementActions.click(driver, btnSignIn());
 	}
-	
+
+	private org.openqa.selenium.WebElement btnLogout() {
+		return elVisible("btnLogout", 10);
+	}
+
 	public String getCurrentURL() {
 		return driver.getCurrentUrl();
 	}
-	
-	public boolean isSignInBtnVisible() {
-		try {
-			return btnSignIn.isDisplayed();
-		} catch (Exception e) {
-			return true;
-		}
-	}
-	//demo
+
 	public void clearUsernameEmailTxt() {
-		txtUsername.sendKeys(Keys.CONTROL + "a"); // Select all text
-		txtUsername.sendKeys(Keys.DELETE); // Delete selected text
+		txtUsername().sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		txtUsername().sendKeys(Keys.DELETE);
 	}
 
 	public void clearPasswordTxt() {
-		txtPassWord.sendKeys(Keys.CONTROL + "a"); // Select all text
-		txtPassWord.sendKeys(Keys.DELETE); // Delete selected text
+		txtPassWord().sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		txtPassWord().sendKeys(Keys.DELETE);
 	}
 
-	public void clickMyAccountDdl() {
-		try {
-			ddlLogin.click();
-		} catch (Exception e) {
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();", ddlLogin);
-
-		}
+	public void clickLogoutOpt() {
+		ElementActions.click(driver, btnLogout());
 	}
-
-//	public void clickLogoutOpt() {
-//		try {
-//			btnLogout.click();
-//		} catch (Exception e) {
-//			((JavascriptExecutor) driver).executeScript("arguments[0].click();", btnLogout);
-//		}
-//
-//	}
-
 }

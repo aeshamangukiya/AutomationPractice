@@ -1,12 +1,11 @@
-package dataProviders;
+package data.providers;
 
 import java.io.IOException;
 
 import org.testng.annotations.DataProvider;
 
-import constants.ConstVariables;
-import utilitiesTest.ExcelReader;
-import utilitiesTest.LoggerUtility;
+import test.utilities.ExcelReader;
+import test.utilities.LoggerUtil;
 
 public class ProfileDataProvider {
 

@@ -1,7 +1,8 @@
-package utilitiesTest;
+package test.utilities;
 
-import io.restassured.response.Response;
 import java.util.Map;
+
+import io.restassured.response.Response;    
 import static io.restassured.RestAssured.*;
 
 public class ApiUtils {

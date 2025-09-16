@@ -1,184 +1,202 @@
 package helper;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*; 
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import page.utilities.JavaScriptUtil;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
-import pageBase.BasePage;
+/**
+ * ElementActions -------------- Utility class providing safe and reusable
+ * wrappers around common WebElement interactions in Selenium.
+ *
+ * - All methods are static (no instantiation needed). - Each method aims to
+ * provide fallbacks / better stability. - Groups: Clicks, Typing, State Checks,
+ * Scrolling, Dropdowns.
+ */
+public final class ElementActions {
 
-public class ElementActions extends BasePage {
-
-	private JavascriptExecutor executor;
-
-	public ElementActions(WebDriver driver) {
-		super(driver);
-
-		JavascriptExecutor executor;
-		this.executor = (JavascriptExecutor) this.driver;
+	// Prevent instantiation
+	private ElementActions() {
 	}
 
-	public static void click(WebDriver driver, WebElement ele) {
+	/*
+	 * ========================================================== 
+	 * CLICK ACTIONS
+	 * ==========================================================
+	 */
 
-		Actions act = new Actions(driver);
-		act.moveToElement(ele).click(ele).build().perform();
-	}
-
-	public static void mouseOverElement(WebDriver driver, WebElement element) {
+	/**
+	 * Attempts a normal click using Actions class. If normal click fails (element
+	 * not interactable, etc.), it falls back to JS click.
+	 *
+	 * @param driver  WebDriver instance
+	 * @param element Target element
+	 */
+	public static void click(WebDriver driver, WebElement element) {
 		try {
-			new Actions(driver).moveToElement(element).build().perform();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void scrollDown(WebElement element) {
-		Actions act = new Actions(driver);
-		act.keyUp(Keys.CONTROL).sendKeys(Keys.END).perform();
-	}
-
-	public static boolean findElement(WebDriver driver, WebElement ele) {
-		boolean flag = true;
-		try {
-			ele.isDisplayed();
-			flag = true;
-		} catch (Exception e) {
-			// System.out.println("Location not found: "+locatorName);
-			flag = false;
-		}
-		return flag;
-	}
-
-	public static boolean isDisplayed(WebDriver driver, WebElement ele) {
-		boolean flag = true;
-		flag = findElement(driver, ele);
-		if (flag) {
-			flag = ele.isDisplayed();
-			if (flag) {
-				System.out.println("The element is Displayed");
-			} else {
-				System.out.println("The element is not Displayed");
-			}
-		}
-		return flag;
-	}
-
-	public static boolean isSelected(WebDriver driver, WebElement ele) {
-		boolean flag = true;
-		flag = findElement(driver, ele);
-		if (flag) {
-			flag = ele.isSelected();
-			if (flag) {
-				System.out.println("The element is Selected");
-			} else {
-				System.out.println("The element is not Selected");
-			}
-		}
-		return flag;
-	}
-
-	public static boolean isEnabled(WebDriver driver, WebElement ele) {
-		boolean flag = false;
-		flag = findElement(driver, ele);
-		if (flag) {
-			flag = ele.isEnabled();
-			if (flag) {
-				System.out.println("The element is Enabled");
-			} else {
-				System.out.println("The element is not Enabled");
-			}
-		}
-		return flag;
-	}
-
-	public static void fluentWait(WebDriver driver, WebElement element, int timeOut) {
-		Wait<WebDriver> wait = null;
-		try {
-			wait = new FluentWait<WebDriver>((WebDriver) driver).withTimeout(Duration.ofSeconds(20))
-					.pollingEvery(Duration.ofSeconds(2)).ignoring(Exception.class);
-			wait.until(ExpectedConditions.visibilityOf(element));
+			// Plan A: Normal Selenium click
 			element.click();
-		} catch (Exception e) {
+		} catch (Exception e1) {
+			System.out.println("[WARN] Normal click failed. Trying JavaScript click.");
+
+			try {
+				// Plan B: Fallback using JS
+				JavaScriptUtil.clickElement(driver, element);
+			} catch (Exception e2) {
+				System.err.println("[ERROR] Both normal click and JS click failed.");
+				throw e2; // test fails here
+			}
 		}
 	}
 
-	public static void implicitWait(WebDriver driver, int timeOut) {
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	/*
+	 * ========================================================== 
+	 * TYPING & TEXT INPUT 
+	 * ==========================================================
+	 */
+
+	/**
+	 * Types given text into an element using sendKeys(). Does nothing if text is
+	 * null.
+	 *
+	 * @param driver  WebDriver instance
+	 * @param element Input element
+	 * @param text    Text to type
+	 */
+	public static void typeText(WebDriver driver, WebElement element, String text) {
+		if (text == null)
+			return;
+		element.sendKeys(text);
 	}
 
-	public static void explicitWait(WebDriver driver, WebElement element, Duration timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, timeOut);
-		wait.until(ExpectedConditions.visibilityOf(element));
-	}
-
-	public static void pageLoadTimeOut(WebDriver driver, int timeOut) {
-		driver.manage().timeouts().pageLoadTimeout(timeOut, TimeUnit.SECONDS);
-	}
-
-	public static boolean type(WebElement ele, String text) {
-		boolean flag = true;
+	/**
+	 * Clears existing text from an input field. Uses element.clear(), and if that
+	 * fails, falls back to CTRL+A + DELETE.
+	 *
+	 * @param driver  WebDriver instance
+	 * @param element Input element
+	 */
+	public static void clearText(WebDriver driver, WebElement element) {
 		try {
-			flag = ele.isDisplayed();
-			ele.clear();
-			ele.sendKeys(text);
-			// logger.info("Entered text :"+text);
-			flag = true;
-		} catch (Exception e) {
-			System.out.println("Location Not found");
-			flag = false;
+			element.clear();
+		} catch (Exception ignored) {
+			element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			element.sendKeys(Keys.DELETE);
 		}
-		return flag;
 	}
 
-	public static boolean selectByVisibleText(String visibletext, WebElement ele) {
+	/**
+	 * Clears existing text, then types new text.
+	 *
+	 * @param driver  WebDriver instance
+	 * @param element Input element
+	 * @param text    Text to type
+	 */
+	public static void clearAndTypeText(WebDriver driver, WebElement element, String text) {
+		clearText(driver, element);
+		typeText(driver, element, text);
+	}
+
+	/*
+	 * ========================================================== 
+	 * STATE CHECKS
+	 * ==========================================================
+	 */
+
+	/**
+	 * Checks if element is displayed (visible). Returns false if element is null,
+	 * stale, or not found.
+	 *
+	 * @param element WebElement to check
+	 * @return true if displayed, false otherwise
+	 */
+	public static boolean isDisplayed(WebElement element) {
 		try {
-			Select s = new Select(ele);
-			s.selectByVisibleText(visibletext);
-			return true;
+			return element.isDisplayed();
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-	public static boolean selectByValue(WebElement element, String value) {
-		try {
-			Select s = new Select(element);
-			s.selectByValue(value);
-			return true;
-		} catch (Exception e) {
+	/*
+	 * ========================================================== 
+	 * DROPDOWN HANDLING
+	 * (<select> elements)
+	 * ==========================================================
+	 */
 
-			return false;
-		}
+	/**
+	 * Utility method to wrap a WebElement into a Select object.
+	 *
+	 * @param selectElement The dropdown WebElement
+	 * @return Select object for the given element
+	 */
+	public static Select asSelect(WebElement dropdownElement) {
+		return new Select(dropdownElement);
 	}
 
-	public static boolean selectByIndex(WebElement element, int index) {
-		try {
-			Select s = new Select(element);
-			s.selectByIndex(index);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+	/*
+	 * --------------------------- Retrieval Helpers ---------------------------
+	 */
+	public static List<String> getAllOptions(WebElement dropdownElement) {
+		return asSelect(dropdownElement).getOptions().stream().map(option -> option.getText().trim())
+				.collect(Collectors.toList());
 	}
 
-	public static boolean selectBySendkeys(String value, WebElement ele) {
-		try {
-			ele.sendKeys(value);
-			return true;
-		} catch (Exception e) {
-
-			return false;
-		}
+	/*
+	 * --------------------------- Core Selections ---------------------------
+	 */
+	public static Select selectByVisibleText(WebElement dropdownElement, String text) {
+		asSelect(dropdownElement).selectByVisibleText(text);
+		return asSelect(dropdownElement);
 	}
 
+	public static Select selectByValue(WebElement dropdownElement, String value) {
+		asSelect(dropdownElement).selectByValue(value);
+		return asSelect(dropdownElement);
+	}
+
+	public static Select selectByIndex(WebElement dropdownElement, int index) {
+		asSelect(dropdownElement).selectByIndex(index);
+		return asSelect(dropdownElement);
+	}
+
+	/**
+	 * Selects a random option from a dropdown (native <select>).
+	 *
+	 * @param selectElement The dropdown WebElement
+	 */
+	public static Select selectRandomDropdownOption(WebElement dropdownElement) {
+		Select select = asSelect(dropdownElement);
+		List<WebElement> options = select.getOptions();
+		if (options.isEmpty())
+			throw new IllegalStateException("Dropdown is empty.");
+		int index = new Random().nextInt(options.size());
+		select.selectByIndex(index);
+
+		return select;
+	}
+
+	/**
+	 * Selects a specific option by visible text from a dropdown and returns the
+	 * selected WebElement. Throws error if option not found.
+	 *
+	 * @param selectElement The dropdown WebElement
+	 * @param visibleText   Option text to select
+	 * @return The selected option WebElement
+	 */
+	public static Select selectSpecificDropdownOption(WebElement dropdownElement, String visibleText) {
+		Select select = asSelect(dropdownElement);
+		List<String> allTexts = getAllOptions(dropdownElement);
+		if (!allTexts.contains(visibleText)) {
+			throw new IllegalArgumentException("Value '" + visibleText + "' not found. Available: " + allTexts);
+		}
+		select.selectByVisibleText(visibleText);
+		return select;
+	}
 }
