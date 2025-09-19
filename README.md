@@ -1,24 +1,25 @@
 # Hybrid Test Automation Framework  
-### *Built with Java, Selenium WebDriver, Rest Assured, TestNG, Maven & Log4j2*
+### *Built with Java, Selenium WebDriver, TestNG, Rest Assured, JDBC, Maven, Log4j2 & Extent Reports*
 
 ---
 
 ## Overview
 
-This is an **End-to-End Hybrid Test Automation Framework** designed for comprehensive testing across **UI**, **API**, and **Database** layers of a web application.
+This is an **End-to-End Hybrid Test Automation Framework** designed for comprehensive testing across **UI**, **API**, and **Database** layers of a web application.  
 
-The framework is developed using **Java**, **Selenium**, **Rest Assured**, **TestNG**, **Maven**, and **Log4j2**, enabling teams to write, manage, and execute reliable automated test cases efficiently.
+The framework is developed using **Java**, **Selenium**, **Rest Assured**, **JDBC**, **TestNG**, **Maven**, and **Log4j2**, enabling teams to write, manage, and execute reliable automated test cases efficiently. 
 
-It follows best practices and design patterns like **Page Object Model (POM)** and emphasizes **modularity**, **scalability**, and **maintainability**. With integrated logging, parallel execution, and rich HTML reporting, this framework offers a robust solution for automation testing and continuous integration pipelines.
+It supports **UI, API, and Database validations**, following best practices like **Page Object Model (POM)** and emphasizing **modularity**, **scalability**, and **maintainability**. With integrated logging, parallel execution, and rich HTML reporting, this framework offers a robust solution for automation testing and continuous integration pipelines.
 
----
+----
 
 ## Key Features
 
 -  **End-to-End UI, API & DB Test Automation**  
 -  **Modular and Scalable Architecture**  
--  **Database Utilities** with query builder and assertions  
--  **Parallel Execution Support** using TestNG and Maven Surefire  
+-  **API Testing** with Rest Assured for request/response validation
+-  **Database Testing** using JDBC for query execution and result validation
+-  **Parallel Execution Support** using TestNG and Maven Surefire 
 -  **Page Object Model (POM)** design pattern for UI automation  
 -  **Data-Driven Testing** with Excel, JSON, or Property files  
 -  **Cross-Environment Execution** via configuration files  
@@ -35,11 +36,11 @@ It follows best practices and design patterns like **Page Object Model (POM)** a
 | Java           | Core programming language       |
 | Selenium       | UI automation                   |
 | Rest Assured   | API testing                     |
+| JDBC           | Database testing and validation |
 | TestNG         | Test orchestration              |
 | Maven          | Build and dependency management |
 | Log4j2         | Logging and debugging           |
 | Extent Reports | Rich HTML reporting             |
-| JDBC           | Database connectivity & testing |
 
 ---
 
@@ -181,7 +182,6 @@ test/java/tests/api/users/GetUsersAPITest.java
 - JSON Schema validation
 - Token authentication
 - Data-driven APIs using Excel or JSON
-- 
 ---
 
 ## Naming Conventions
